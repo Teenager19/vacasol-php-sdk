@@ -2,6 +2,7 @@
 
 namespace Vacasol\Catalog;
 
+use Vacasol\Catalog\Exception\Enum\InvalidKey;
 use Vacasol\Catalog\Exception\Enum\InvalidValue;
 
 abstract class Enum {
@@ -11,15 +12,19 @@ abstract class Enum {
      */
     protected $value;
 
-    public function __construct($value) {
-        if (!$this->isValid($value)) {
+    public function __construct($value, $validate = true) {
+        if ($validate && !$this->isValid($value)) {
             throw new InvalidValue($value);
         }
         $this->value = $value;
     }
 
     public static function __callStatic($name, $arguments) {
-        return new static($name);
+        $reflectionClass = new \ReflectionClass(get_called_class());
+        if (!$reflectionClass->hasConstant($name)) {
+            throw new InvalidKey($name);
+        }
+        return new static($reflectionClass->getConstant($name), false);
     }
 
     /**
@@ -28,7 +33,8 @@ abstract class Enum {
      * @return bool
      */
     public function isValid($value) {
-        return defined('static::' . $value);
+        $reflectionClass = new \ReflectionClass($this);
+        return in_array($value, array_values($reflectionClass->getConstants()));
     }
 
     /**

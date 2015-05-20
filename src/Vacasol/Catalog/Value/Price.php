@@ -13,15 +13,20 @@ class Price extends Value {
     /**
      * @var float
      */
-    protected $Discount;
+    protected $Discount = 0;
 
     /**
      * @var float
      */
-    protected $CampaignDiscount;
+    protected $CampaignDiscount = 0;
 
     /**
      * @var string
      */
     protected $CurrencyCode;
+
+    public function __construct($price, $currencyCode) {
+        $this->Price = $price;
+        $this->CurrencyCode = $currencyCode;
+    }
 }

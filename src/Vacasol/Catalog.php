@@ -32,6 +32,7 @@ class Catalog {
     protected $_classMap = [
         // Responses
         'GetPropertyBookingDetailsResponseMessage' => '\Vacasol\Catalog\Value\Response\GetPropertyBookingDetails',
+        'GetPropertyPriceResponseMessage' => '\Vacasol\Catalog\Value\Response\GetPropertyPrice',
         // Booking items
         'ServiceType' => '\Vacasol\Catalog\Value\ServiceType',
         'MandatoryItem' => '\Vacasol\Catalog\Value\MandatoryItem',
@@ -41,11 +42,15 @@ class Catalog {
         'PriceType' => '\Vacasol\Catalog\Value\Price',
         'ErrorType' => '\Vacasol\Catalog\Value\Error',
         'PeriodType' => '\Vacasol\Catalog\Value\Period',
-        'PropertyDeposit' => '\Vacasol\Catalog\Value\PropertyDeposit',
         'LanguageContent' => '\Vacasol\Catalog\Value\TranslateEntry',
+        'PropertyDeposit' => '\Vacasol\Catalog\Value\PropertyDeposit',
         'ContactPersonType' => '\Vacasol\Catalog\Value\ContactPerson',
         'PaymentMethodType' => '\Vacasol\Catalog\Value\PaymentMethod',
-        'PropertyBookingDetailType' => '\Vacasol\Catalog\Value\PropertyBookingInfo'
+        'ConsumptionMeterNumbers' => '\Vacasol\Catalog\Value\ConsumptionMeterNumbers',
+        'InstallmentInfo' => '\Vacasol\Catalog\Value\Installment',
+        // Data wrappers
+        'PropertyBookingDetailType' => '\Vacasol\Catalog\Value\PropertyBookingInfo',
+        'BookingRequestItem' => '\Vacasol\Catalog\Value\BookingRequestItem',
     ];
 
     public function __construct($apiLogin, $apiPassword) {
@@ -120,5 +125,16 @@ class Catalog {
      */
     public function getPropertyBookingDetail(Request\GetPropertyBookingDetails $request) {
         return $this->_makeRequest('GetPropertyBookingDetail', $request);
+    }
+
+    /**
+     * @param Request\GetPropertyPrice $request
+     *
+     * @return Response
+     * @throws ApiException
+     * @throws EmptyResponse
+     */
+    public function getPropertyPrice(Request\GetPropertyPrice $request) {
+        return $this->_makeRequest('GetPropertyPrice', $request);
     }
 }
