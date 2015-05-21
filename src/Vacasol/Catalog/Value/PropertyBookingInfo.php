@@ -100,6 +100,16 @@ class PropertyBookingInfo extends Value {
     }
 
     /**
+     * @param MandatoryItem[] $mandatoryItems
+     *
+     * @return $this
+     */
+    public function setMandatoryItems(array $mandatoryItems) {
+        $this->MandatoryItems = (object)['MandatoryItem' => $mandatoryItems];
+        return $this;
+    }
+
+    /**
      * @return PaymentMethod[]|null
      */
     public function getPaymentInfo() {
@@ -121,16 +131,50 @@ class PropertyBookingInfo extends Value {
     }
 
     /**
-     * Returns the base rental price (without any extras)
+     * Returns the base rental price (without any optional extras)
      *
      * @return float
      */
-    public function getBaseBookingPrice() {
+    public function getFullBookingPrice() {
         $basePrice = 0;
         foreach ($this->getMandatoryItems() as $mandatoryItem) {
             $basePrice += $mandatoryItem->getPrice()->getPrice();
         }
-
         return $basePrice;
+    }
+
+    /**
+     * Returns the base discounted rental price (without any optional extras)
+     *
+     * @return float|int
+     */
+    public function getDiscountBookingPrice() {
+        $discountedPrice = 0;
+        foreach ($this->getMandatoryItems() as $mandatoryItem) {
+            /** @var Price $price */
+            $price = $mandatoryItem->getPrice();
+            $fullPrice = $price->getPrice();
+
+            $discountedPrice += $this->_getPercentageValue($price->getDiscount(), $fullPrice);
+            $discountedPrice += $this->_getPercentageValue($price->getCampaignDiscount(), $fullPrice);
+        }
+        return round($discountedPrice, Price::GREAT_PRECISION);
+    }
+
+    /**
+     * @return float
+     */
+    public function getTotalBookingPrice() {
+        return $this->getFullBookingPrice() - $this->getDiscountedBookingPrice();
+    }
+
+    /**
+     * @param $percentage
+     * @param $base
+     *
+     * @return float
+     */
+    protected function _getPercentageValue($percentage, $base) {
+        return ($percentage / 100) * $base;
     }
 }

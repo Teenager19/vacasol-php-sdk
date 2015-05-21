@@ -5,18 +5,21 @@ namespace Vacasol\Catalog\Value;
 use Vacasol\Catalog\Value;
 
 class Price extends Value {
+
+    const GREAT_PRECISION = 2;
+
     /**
      * @var float
      */
     protected $Price;
 
     /**
-     * @var float
+     * @var float Percentage based discount
      */
     protected $Discount = 0;
 
     /**
-     * @var float
+     * @var float Percentage based campaign discount
      */
     protected $CampaignDiscount = 0;
 
