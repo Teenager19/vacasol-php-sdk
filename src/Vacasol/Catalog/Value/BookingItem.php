@@ -109,7 +109,7 @@ class BookingItem extends Value {
             $this->OriginalPrice,
             $this->Name,
             $this->Name,
-            new BookingItemType($this->ProductType),
+            $this->getProductType()->toBookingItemType(),
             $this->ServiceId
         );
     }
