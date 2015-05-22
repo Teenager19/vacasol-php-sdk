@@ -14,12 +14,12 @@ class Price extends Value {
     protected $Price;
 
     /**
-     * @var float Percentage based discount
+     * @var float
      */
     protected $Discount = 0;
 
     /**
-     * @var float Percentage based campaign discount
+     * @var float
      */
     protected $CampaignDiscount = 0;
 
@@ -31,5 +31,14 @@ class Price extends Value {
     public function __construct($price, $currencyCode) {
         $this->Price = $price;
         $this->CurrencyCode = $currencyCode;
+    }
+
+    /**
+     * Returns price without any discount
+     *
+     * @return float
+     */
+    public function getOriginalPrice() {
+        return $this->Price + $this->Discount;
     }
 }

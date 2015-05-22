@@ -10,11 +10,6 @@ class MandatoryItem extends BookingItem {
     protected $ExtraInfo;
 
     /**
-     * @var int
-     */
-    protected $ServiceId;
-
-    /**
      * @var string
      */
     protected $ArrivalDate;

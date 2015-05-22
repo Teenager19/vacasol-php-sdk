@@ -113,14 +113,14 @@ class BookingRequestItem extends Value {
         return new BookingItemType($this->Type);
     }
 
-    public function __construct($unitCount, Price $price, Price $costPrice, $name,
-                                $description, BookingItemType $type, $productTypeId) {
-        $this->NumOfUnit = $unitCount;
+    public function __construct(Price $price, Price $costPrice, $name, $description,
+                                BookingItemType $type, $productTypeId, $unitCount = 1) {
         $this->Price = $price;
         $this->CostPrice = $costPrice;
         $this->Name = $name;
         $this->Description = $description;
         $this->Type = (string)$type;
         $this->ProductTypeId = $productTypeId;
+        $this->NumOfUnit = $unitCount;
     }
 }

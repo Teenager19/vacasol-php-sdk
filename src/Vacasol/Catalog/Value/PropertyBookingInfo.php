@@ -146,35 +146,35 @@ class PropertyBookingInfo extends Value {
     /**
      * Returns the base discounted rental price (without any optional extras)
      *
-     * @return float|int
-     */
-    public function getDiscountBookingPrice() {
-        $discountedPrice = 0;
-        foreach ($this->getMandatoryItems() as $mandatoryItem) {
-            /** @var Price $price */
-            $price = $mandatoryItem->getPrice();
-            $fullPrice = $price->getPrice();
-
-            $discountedPrice += $this->_getPercentageValue($price->getDiscount(), $fullPrice);
-            $discountedPrice += $this->_getPercentageValue($price->getCampaignDiscount(), $fullPrice);
-        }
-        return round($discountedPrice, Price::GREAT_PRECISION);
-    }
-
-    /**
      * @return float
      */
-    public function getTotalBookingPrice() {
-        return $this->getFullBookingPrice() - $this->getDiscountedBookingPrice();
+    public function getFinalBookingPrice() {
+        $price = 0;
+        foreach ($this->getMandatoryItems() as $mandatoryItem) {
+            $price += $mandatoryItem->getPrice()->getPrice();
+        }
+        return round($price, Price::GREAT_PRECISION);
     }
 
     /**
-     * @param $percentage
-     * @param $base
+     * Returns the discount amount of mandatory items included in the booking
      *
      * @return float
      */
-    protected function _getPercentageValue($percentage, $base) {
-        return ($percentage / 100) * $base;
+    public function getDiscountBookingPrice() {
+        $discountPrice = 0;
+        foreach ($this->getMandatoryItems() as $mandatoryItem) {
+            $discountPrice += $mandatoryItem->getPrice()->getDiscount();
+        }
+        return round($discountPrice, Price::GREAT_PRECISION);
+    }
+
+    /**
+     * Returns the original price before any discount has been applied
+     *
+     * @return float
+     */
+    public function getOriginalBookingPrice() {
+        return $this->getFinalBookingPrice() + $this->getDiscountBookingPrice();
     }
 }
