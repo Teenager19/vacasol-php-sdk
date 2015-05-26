@@ -2,7 +2,6 @@
 
 namespace Vacasol\Catalog\Value;
 
-use Vacasol\Catalog\Enum\BookingItemType;
 use Vacasol\Catalog\Enum\ProductType;
 use Vacasol\Catalog\Enum\UnitType;
 use Vacasol\Catalog\Value;
@@ -17,6 +16,11 @@ class BookingItem extends Value {
      * @var Price
      */
     protected $Price;
+
+    /**
+     * @var Price
+     */
+    protected $CostPrice;
 
     /**
      * @var Price
@@ -101,12 +105,25 @@ class BookingItem extends Value {
     }
 
     /**
+     * @return Price
+     */
+    public function getPrice() {
+        /** @var Price $price */
+        $price = $this->Price;
+
+        if (ProductType::DISCOUNT == $this->ProductType) {
+            $price->setPrice(-$price->getPrice());
+        }
+        return $price;
+    }
+
+    /**
      * @return BookingRequestItem
      */
     public function toBookingRequestItem() {
         return new BookingRequestItem(
             $this->Price,
-            $this->OriginalPrice,
+            $this->CostPrice,
             $this->Name,
             $this->Name,
             $this->getProductType()->toBookingItemType(),
