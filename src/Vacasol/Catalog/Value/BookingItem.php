@@ -78,9 +78,12 @@ class BookingItem extends Value {
 
     /**
      * @param UnitType $unitType
+     *
+     * @return $this
      */
     public function setUnitType(UnitType $unitType) {
         $this->UnitType = (string)$unitType;
+        return $this;
     }
 
     /**
@@ -92,9 +95,12 @@ class BookingItem extends Value {
 
     /**
      * @param ProductType $productType
+     *
+     * @return $this
      */
     public function setProductType(ProductType $productType) {
         $this->ProductType = (string)$productType;
+        return $this;
     }
 
     /**
@@ -121,9 +127,14 @@ class BookingItem extends Value {
      * @return BookingRequestItem
      */
     public function toBookingRequestItem() {
+        /** @var Price $costPrice */
+        $costPrice = is_null($this->CostPrice)
+            ? new Price(0, $this->Price->getCurrencyCode())
+            : $this->CostPrice;
+
         return new BookingRequestItem(
             $this->Price,
-            $this->CostPrice,
+            $costPrice,
             $this->Name,
             $this->Name,
             $this->getProductType()->toBookingItemType(),
