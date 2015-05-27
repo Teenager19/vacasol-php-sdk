@@ -115,7 +115,7 @@ class BookingItem extends Value {
      */
     public function getPrice() {
         /** @var Price $price */
-        $price = $this->Price;
+        $price = clone $this->Price;
 
         if (ProductType::DISCOUNT == $this->ProductType) {
             $price->setPrice(-$price->getPrice());
