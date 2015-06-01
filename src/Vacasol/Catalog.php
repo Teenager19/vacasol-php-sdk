@@ -9,7 +9,10 @@ use Vacasol\Catalog\Value\Response;
 
 class Catalog {
 
-    const VACASOL_API_WSDL = "http://xml.vacasol.dk/Services/CatalogService";
+    /**
+     * @var string
+     */
+    protected $_wsdl;
 
     /**
      * @var string
@@ -33,6 +36,7 @@ class Catalog {
         // Responses
         'GetPropertyBookingDetailsResponseMessage' => '\Vacasol\Catalog\Value\Response\GetPropertyBookingDetails',
         'GetPropertyPriceResponseMessage' => '\Vacasol\Catalog\Value\Response\GetPropertyPrice',
+        'CreateBookingResponseMessage' => '\Vacasol\Catalog\Value\Response\CreateBooking',
         // Booking items
         'ServiceType' => '\Vacasol\Catalog\Value\ServiceType',
         'MandatoryItem' => '\Vacasol\Catalog\Value\MandatoryItem',
@@ -42,20 +46,24 @@ class Catalog {
         'PriceType' => '\Vacasol\Catalog\Value\Price',
         'ErrorType' => '\Vacasol\Catalog\Value\Error',
         'PeriodType' => '\Vacasol\Catalog\Value\Period',
+        'CreditCardInfo' => '\Vacasol\Catalog\Value\CreditCard',
+        'CustomerBasicInfo' => '\Vacasol\Catalog\Value\Customer',
+        'InstallmentInfo' => '\Vacasol\Catalog\Value\Installment',
         'LanguageContent' => '\Vacasol\Catalog\Value\TranslateEntry',
         'PropertyDeposit' => '\Vacasol\Catalog\Value\PropertyDeposit',
         'ContactPersonType' => '\Vacasol\Catalog\Value\ContactPerson',
         'PaymentMethodType' => '\Vacasol\Catalog\Value\PaymentMethod',
+        'BookingRequestInfo' => '\Vacasol\Catalog\Value\BookingRequest',
         'ConsumptionMeterNumbers' => '\Vacasol\Catalog\Value\ConsumptionMeterNumbers',
-        'InstallmentInfo' => '\Vacasol\Catalog\Value\Installment',
         // Data wrappers
         'PropertyBookingDetailType' => '\Vacasol\Catalog\Value\PropertyBookingInfo',
         'BookingRequestItem' => '\Vacasol\Catalog\Value\BookingRequestItem',
     ];
 
-    public function __construct($apiLogin, $apiPassword) {
+    public function __construct($apiLogin, $apiPassword, $wsdl = 'http://xml.vacasol.dk/Services/CatalogService') {
         $this->_apiLogin = $apiLogin;
         $this->_apiPassword = $apiPassword;
+        $this->_wsdl = $wsdl;
     }
 
     /**
@@ -81,7 +89,7 @@ class Catalog {
      */
     protected function _getDefaultClient() {
         return new \SoapClient(
-            self::VACASOL_API_WSDL,
+            $this->_wsdl,
             [
                 'soap_version' => SOAP_1_1,
                 'login' => $this->_apiLogin,
@@ -130,11 +138,18 @@ class Catalog {
     /**
      * @param Request\GetPropertyPrice $request
      *
-     * @return Response
-     * @throws ApiException
-     * @throws EmptyResponse
+     * @return Response\GetPropertyPrice
      */
     public function getPropertyPrice(Request\GetPropertyPrice $request) {
         return $this->_makeRequest('GetPropertyPrice', $request);
+    }
+
+    /**
+     * @param Request\CreateBooking $request
+     *
+     * @return Response\CreateBooking
+     */
+    public function createBooking(Request\CreateBooking $request){
+        return $this->_makeRequest('CreateBooking', $request);
     }
 }
