@@ -14,6 +14,6 @@ abstract class Response extends Value {
      * @return Error[]|null
      */
     public function getErrors() {
-        return !is_null($this->Errors) ? $this->Errors->ErrorType : null;
+        return isset($this->Errors->ErrorType) ? $this->Errors->ErrorType : null;
     }
 }

@@ -25,6 +25,6 @@ class GetPropertyPrice extends Response {
      * @return Value\Installment[]|null
      */
     public function getInstallments() {
-        return !is_null($this->Installments) ? $this->Installments->InstallmentInfo : null;
+        return isset($this->Installments->InstallmentInfo) ? $this->Installments->InstallmentInfo : null;
     }
 }

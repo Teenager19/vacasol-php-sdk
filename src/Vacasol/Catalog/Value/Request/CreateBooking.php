@@ -42,7 +42,8 @@ class CreateBooking extends Request {
      */
     protected $OverrideOptionReason;
 
-    public function __construct(BookingRequest $bookingRequest) {
+    public function __construct(BookingRequest $bookingRequest, $languageCode) {
         $this->BookingInfo = $bookingRequest;
+        $this->LanguageCode = $languageCode;
     }
 }

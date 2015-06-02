@@ -89,14 +89,14 @@ class PropertyBookingInfo extends Value {
      * @return ServiceType[]|null
      */
     public function getOptionalServices() {
-        return !is_null($this->OptionalServices) ? $this->OptionalServices->ServiceType : null;
+        return isset($this->OptionalServices->ServiceType) ? $this->OptionalServices->ServiceType : null;
     }
 
     /**
      * @return MandatoryItem[]|null
      */
     public function getMandatoryItems() {
-        return !is_null($this->MandatoryItems) ? $this->MandatoryItems->MandatoryItem : null;
+        return isset($this->MandatoryItems->MandatoryItem) ? $this->MandatoryItems->MandatoryItem : null;
     }
 
     /**
@@ -113,21 +113,21 @@ class PropertyBookingInfo extends Value {
      * @return PaymentMethod[]|null
      */
     public function getPaymentInfo() {
-        return !is_null($this->PaymentInfo) ? $this->PaymentInfo->PaymentMethodType : null;
+        return isset($this->PaymentInfo->PaymentMethodType) ? $this->PaymentInfo->PaymentMethodType : null;
     }
 
     /**
      * @return PayOnSpotBookingItem[]|null
      */
     public function getPaidOnSpotItems() {
-        return !is_null($this->PaidOnSpotItems) ? $this->PaidOnSpotItems->BookingSpotItems : null;
+        return isset($this->PaidOnSpotItems->BookingSpotItems) ? $this->PaidOnSpotItems->BookingSpotItems : null;
     }
 
     /**
      * @return Consumption[]|null
      */
     public function getConsumptionProduct() {
-        return !is_null($this->ConsumptionProduct) ? $this->ConsumptionProduct->ConsumptionType : null;
+        return isset($this->ConsumptionProduct->ConsumptionType) ? $this->ConsumptionProduct->ConsumptionType : null;
     }
 
     /**
