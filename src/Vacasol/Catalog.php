@@ -54,6 +54,7 @@ class Catalog {
         'ContactPersonType' => '\Vacasol\Catalog\Value\ContactPerson',
         'PaymentMethodType' => '\Vacasol\Catalog\Value\PaymentMethod',
         'BookingRequestInfo' => '\Vacasol\Catalog\Value\BookingRequest',
+        'BookingResultInfoType' => '\Vacasol\Catalog\Value\BookingResult',
         'ConsumptionMeterNumbers' => '\Vacasol\Catalog\Value\ConsumptionMeterNumbers',
         // Data wrappers
         'PropertyBookingDetailType' => '\Vacasol\Catalog\Value\PropertyBookingInfo',
@@ -95,7 +96,9 @@ class Catalog {
                 'login' => $this->_apiLogin,
                 'password' => $this->_apiPassword,
                 'classmap' => $this->_classMap,
-                'features' => SOAP_SINGLE_ELEMENT_ARRAYS
+                'features' => SOAP_SINGLE_ELEMENT_ARRAYS,
+                'trace' => 1,
+                'exception' => 0
             ]
         );
     }
