@@ -56,12 +56,13 @@ class Customer extends Value {
      */
     protected $Username = '';
 
-    public function __construct($firstName, $lastName, $address, $zipCode, $city, $phone, $email) {
+    public function __construct($firstName, $lastName, $address, $zipCode, $city, $countryCode, $phone, $email) {
         $this->FirstName = $firstName;
         $this->LastName = $lastName;
         $this->Address = $address;
         $this->ZipCode = $zipCode;
         $this->City = $city;
+        $this->CountryCode = $countryCode;
         $this->Phone = $phone;
         $this->Email = $email;
     }
