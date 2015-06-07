@@ -131,26 +131,16 @@ class PropertyBookingInfo extends Value {
     }
 
     /**
-     * Returns the base rental price (without any optional extras)
-     *
-     * @return float
-     */
-    public function getFullBookingPrice() {
-        $basePrice = 0;
-        foreach ($this->getMandatoryItems() as $mandatoryItem) {
-            $basePrice += $mandatoryItem->getPrice()->getPrice();
-        }
-        return $basePrice;
-    }
-
-    /**
      * Returns the base discounted rental price (without any optional extras)
      *
      * @return float
      */
     public function getFinalBookingPrice() {
         $price = 0;
-        foreach ($this->getMandatoryItems() as $mandatoryItem) {
+        if (is_null($mandatoryItems = $this->getMandatoryItems())) {
+            return $price;
+        }
+        foreach ($mandatoryItems as $mandatoryItem) {
             $price += $mandatoryItem->getPrice()->getPrice();
         }
         return round($price, Price::GREAT_PRECISION);
@@ -163,7 +153,10 @@ class PropertyBookingInfo extends Value {
      */
     public function getDiscountBookingPrice() {
         $discountPrice = 0;
-        foreach ($this->getMandatoryItems() as $mandatoryItem) {
+        if (is_null($mandatoryItems = $this->getMandatoryItems())) {
+            return $discountPrice;
+        }
+        foreach ($mandatoryItems as $mandatoryItem) {
             $discountPrice += $mandatoryItem->getPrice()->getDiscount();
         }
         return round($discountPrice, Price::GREAT_PRECISION);
