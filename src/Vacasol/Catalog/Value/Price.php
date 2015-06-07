@@ -5,9 +5,6 @@ namespace Vacasol\Catalog\Value;
 use Vacasol\Catalog\Value;
 
 class Price extends Value {
-
-    const GREAT_PRECISION = 2;
-
     /**
      * @var float
      */
@@ -34,11 +31,29 @@ class Price extends Value {
     }
 
     /**
+     * @param int $precision
+     *
+     * @return float
+     */
+    public function getPrice($precision = 0) {
+        return round($this->Price, $precision);
+    }
+
+    /**
+     * @param int $precision
+     *
+     * @return float
+     */
+    public function getDiscount($precision = 0) {
+        return round($this->Discount, $precision);
+    }
+
+    /**
      * Returns price without any discount
      *
      * @return float
      */
     public function getOriginalPrice() {
-        return $this->Price + $this->Discount;
+        return $this->getPrice() + $this->getDiscount();
     }
 }

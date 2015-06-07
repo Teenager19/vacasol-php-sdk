@@ -143,7 +143,7 @@ class PropertyBookingInfo extends Value {
         foreach ($mandatoryItems as $mandatoryItem) {
             $price += $mandatoryItem->getPrice()->getPrice();
         }
-        return round($price, Price::GREAT_PRECISION);
+        return $price;
     }
 
     /**
@@ -159,7 +159,7 @@ class PropertyBookingInfo extends Value {
         foreach ($mandatoryItems as $mandatoryItem) {
             $discountPrice += $mandatoryItem->getPrice()->getDiscount();
         }
-        return round($discountPrice, Price::GREAT_PRECISION);
+        return $discountPrice;
     }
 
     /**

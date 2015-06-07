@@ -117,7 +117,7 @@ class BookingItem extends Value {
         /** @var Price $price */
         $price = clone $this->Price;
 
-        if (ProductType::DISCOUNT == $this->ProductType) {
+        if (ProductType::DISCOUNT() == $this->getProductType()) {
             $price->setPrice(-$price->getPrice());
         }
         return $price;
@@ -128,12 +128,15 @@ class BookingItem extends Value {
      */
     public function toBookingRequestItem() {
         /** @var Price $costPrice */
-        $costPrice = is_null($this->CostPrice)
-            ? new Price(0, $this->Price->getCurrencyCode())
-            : $this->CostPrice;
+        $costPrice = is_null($this->getCostPrice())
+            ? new Price(0, $this->getPrice()->getCurrencyCode())
+            : $this->getCostPrice();
 
+        /** @var Price $price */
+        $price = clone $this->getPrice();
+        $price->setPrice(abs($price->getPrice()));
         return new BookingRequestItem(
-            $this->Price,
+            $price,
             $costPrice,
             $this->Name,
             $this->Name,
