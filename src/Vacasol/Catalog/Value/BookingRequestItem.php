@@ -113,6 +113,19 @@ class BookingRequestItem extends Value {
         return new BookingItemType($this->Type);
     }
 
+    /**
+     * @return Price
+     */
+    public function getPrice() {
+        /* @var Price $price */
+        $price = clone $this->Price;
+
+        if (BookingItemType::DISCOUNT() == $this->getType()) {
+            $price->setPrice(-$price->getPrice());
+        }
+        return $price;
+    }
+
     public function __construct(Price $price, Price $costPrice, $name, $description,
                                 BookingItemType $type, $productTypeId, $unitCount = 1) {
         $this->Price = $price;
