@@ -47,6 +47,11 @@ class GetPropertyBookingDetails extends Request {
     protected $LanguageCode;
 
     /**
+     * @var string
+     */
+    protected $DiscountCode;
+
+    /**
      * @var bool
      */
     protected $IgnorePropertyCanBeBooked;

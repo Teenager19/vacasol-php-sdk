@@ -87,10 +87,10 @@ class BookingItem extends Value {
     }
 
     /**
-     * @return UnitType
+     * @return UnitType|null
      */
     public function getUnitType() {
-        return new UnitType($this->UnitType);
+        return is_null($this->UnitType) ? null : new UnitType($this->UnitType);
     }
 
     /**
@@ -104,10 +104,10 @@ class BookingItem extends Value {
     }
 
     /**
-     * @return ProductType
+     * @return ProductType|null
      */
     public function getProductType() {
-        return new ProductType($this->ProductType);
+        return is_null($this->ProductType) ? null : new ProductType($this->ProductType);
     }
 
     /**
