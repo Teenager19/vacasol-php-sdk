@@ -1,6 +1,7 @@
 <?php
 
 namespace Vacasol\Catalog\Value;
+use Vacasol\Catalog\Enum\ProductType;
 use Vacasol\Catalog\Value;
 
 class PropertyBookingInfo extends Value {
@@ -128,6 +129,26 @@ class PropertyBookingInfo extends Value {
      */
     public function getConsumptionProduct() {
         return isset($this->ConsumptionProduct->ConsumptionType) ? $this->ConsumptionProduct->ConsumptionType : null;
+    }
+
+    /**
+     * Returns item of discount coupon if exists
+     *
+     * @param string $couponCode
+     *
+     * @return MandatoryItem|null
+     */
+    public function getCouponItem($couponCode) {
+        if (is_null($this->getMandatoryItems())) {
+            return;
+        }
+
+        foreach ($this->getMandatoryItems() as $mandatoryItem) {
+            if (ProductType::DISCOUNT == $mandatoryItem->getProductType()
+                && $mandatoryItem->getName() == $couponCode) {
+                return $mandatoryItem;
+            }
+        }
     }
 
     /**

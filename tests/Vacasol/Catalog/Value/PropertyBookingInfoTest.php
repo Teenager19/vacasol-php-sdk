@@ -2,11 +2,46 @@
 
 namespace test\Vacasol\Catalog\Value;
 
+use Vacasol\Catalog\Enum\ProductType;
 use Vacasol\Catalog\Value\MandatoryItem;
 use Vacasol\Catalog\Value\Price;
 use Vacasol\Catalog\Value\PropertyBookingInfo;
 
 class PropertyBookingInfoTest extends \PHPUnit_Framework_TestCase {
+
+    /**
+     * @param string $discountCode
+     *
+     * @dataProvider couponCodeProvider
+     */
+    public function testGettingCouponItem($discountCode) {
+        $couponItem = new MandatoryItem;
+        $couponItem->setProductType(ProductType::DISCOUNT())
+            ->setName($discountCode);
+
+        $propertyBookingInfo = new PropertyBookingInfo;
+        $propertyBookingInfo->setMandatoryItems([$couponItem]);
+
+        $this->assertEquals($couponItem, $propertyBookingInfo->getCouponItem($discountCode));
+    }
+
+    /**
+     * @param string $couponCode
+     *
+     * @dataProvider couponCodeProvider
+     */
+    public function testGettingCouponItemIfCouponNotPresent($couponCode) {
+        $propertyBookingItem = new PropertyBookingInfo;
+        $this->assertNull($propertyBookingItem->getCouponItem($couponCode));
+    }
+
+    public function couponCodeProvider() {
+        return [
+            ['ABC123'],
+            ['SALE20'],
+            ['DISC23']
+        ];
+    }
 
     /**
      * @param int $firstItemDiscount
